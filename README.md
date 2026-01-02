@@ -421,33 +421,6 @@ For more detailed troubleshooting, see:
 - **Environment Setup**: `backend/ENV_USAGE_GUIDE.md`
 - **Troubleshooting**: `backend/TROUBLESHOOTING.md`
 
-## 🧪 Testing
-
-### Manual Testing
-
-1. **Test Authentication**
-
-   - Sign up a new user
-   - Login and verify JWT token is received
-   - Try accessing protected endpoints
-
-2. **Test CSV Operations**
-
-   - Upload a CSV file (admin)
-   - View CSV list (user/admin)
-   - View CSV content
-   - Delete CSV file (admin)
-
-3. **Test Real-time Updates**
-
-   - Open app in two browser windows
-   - Upload/delete CSV in one window
-   - Verify other window updates automatically
-
-4. **Test Role-based Access**
-   - Try admin-only endpoints as regular user
-   - Verify proper error messages
-
 ## 🚀 Deployment Notes
 
 ### Backend
@@ -464,14 +437,6 @@ For more detailed troubleshooting, see:
 - Serve `dist/` directory with a web server (nginx, Apache, etc.)
 - Update `VITE_API_URL` and `VITE_WS_URL` for production backend
 - Configure HTTPS for WebSocket connections
-
-## 📄 License
-
-This project is for educational/assignment purposes.
-
-## 👥 Contributing
-
-This is an assignment project. For questions or issues, please refer to the project documentation.
 
 ---
 
