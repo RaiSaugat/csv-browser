@@ -37,3 +37,6 @@ class CSVContentResponse(BaseModel):
     headers: List[str]
     rows: List[Dict[str, Any]]
     total_rows: int
+    page: int
+    limit: int
+    total_pages: int

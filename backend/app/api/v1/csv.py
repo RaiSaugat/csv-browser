@@ -29,11 +29,13 @@ def list_csv_files(
 @router.get("/{file_id}", response_model=CSVContentResponse)
 def get_csv_file(
     file_id: int,
+    page: int = 1,
+    limit: int = 20,
     current_user: User = Depends(require_user),
     db: Session = Depends(get_db)
 ):
-    """Get CSV file content (user/admin)"""
-    content = get_csv_content(db, file_id)
+    """Get CSV file content with pagination (user/admin)"""
+    content = get_csv_content(db, file_id, page=page, limit=limit)
     return content
 
 

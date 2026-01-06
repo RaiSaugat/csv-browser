@@ -67,17 +67,32 @@ def get_csv_file_by_id(db: Session, file_id: int) -> CSVFile:
     return csv_file
 
 
-def get_csv_content(db: Session, file_id: int) -> dict:
-    """Get the content of a CSV file"""
+def get_csv_content(db: Session, file_id: int, page: int = 1, limit: int = 20) -> dict:
+    """Get the content of a CSV file with pagination"""
     csv_file = get_csv_file_by_id(db, file_id)
 
     try:
         parsed_data = parse_csv_file(csv_file.path)
+        all_rows = parsed_data["rows"]
+        total_rows = len(all_rows)
+
+        # Calculate pagination
+        total_pages = (total_rows + limit - 1) // limit  # Ceiling division
+        page = max(1, min(page, total_pages))  # Ensure page is within valid range
+
+        # Slice rows for current page
+        start_index = (page - 1) * limit
+        end_index = start_index + limit
+        paginated_rows = all_rows[start_index:end_index]
+
         return {
             "filename": csv_file.filename,
             "headers": parsed_data["headers"],
-            "rows": parsed_data["rows"],
-            "total_rows": parsed_data["total_rows"]
+            "rows": paginated_rows,
+            "total_rows": total_rows,
+            "page": page,
+            "limit": limit,
+            "total_pages": total_pages
         }
     except Exception as e:
         raise HTTPException(

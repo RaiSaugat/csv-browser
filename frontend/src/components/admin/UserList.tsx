@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+
 import { userApi } from '../../services/api';
 import type { User } from '../../types';
+import { confirmToast } from '../../utils/toast';
 
 export const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -25,15 +28,19 @@ export const UserList = () => {
   }, []);
 
   const handleDelete = async (userId: number) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) {
+    const confirmed = await confirmToast(
+      'Are you sure you want to delete this user?'
+    );
+    if (!confirmed) {
       return;
     }
 
     try {
       await userApi.delete(userId);
+      toast.success('User deleted successfully');
       await loadUsers();
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Failed to delete user');
+      toast.error(err.response?.data?.detail || 'Failed to delete user');
     }
   };
 
@@ -87,14 +94,16 @@ export const UserList = () => {
                         </p>
                       </div>
                     </div>
-                    <div>
-                      <button
-                        onClick={() => handleDelete(user.id)}
-                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {user.role !== 'admin' && (
+                      <div>
+                        <button
+                          onClick={() => handleDelete(user.id)}
+                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </li>

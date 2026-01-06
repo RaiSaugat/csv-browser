@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+
 import { useAuth } from '../../context/AuthContext';
 
 export const Signup = () => {
+  const { signup } = useAuth();
+
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { signup } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +34,9 @@ export const Signup = () => {
       await signup(username, password);
       navigate('/');
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Signup failed. Please try again.');
+      setError(
+        err.response?.data?.detail || 'Signup failed. Please try again.'
+      );
     } finally {
       setIsLoading(false);
     }

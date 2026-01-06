@@ -6,9 +6,10 @@ interface CSVUploadProps {
 }
 
 export const CSVUpload = ({ onUpload }: CSVUploadProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -56,9 +57,7 @@ export const CSVUpload = ({ onUpload }: CSVUploadProps) => {
       >
         {isUploading ? 'Uploading...' : 'Upload CSV'}
       </label>
-      {error && (
-        <div className="mt-2 text-sm text-red-600">{error}</div>
-      )}
+      {error && <div className="mt-2 text-sm text-red-600">{error}</div>}
     </div>
   );
 };

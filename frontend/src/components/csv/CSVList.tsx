@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { csvApi } from '../../services/api';
 import { useCSVUpdates } from '../../hooks/useWebSocket';
 import { useAuth } from '../../context/AuthContext';
 import type { CSVFile } from '../../types';
 import { CSVViewer } from './CSVViewer';
 import { CSVUpload } from './CSVUpload';
+import { confirmToast } from '../../utils/toast';
 
 export const CSVList = () => {
+  const { isAdmin } = useAuth();
+
   const [files, setFiles] = useState<CSVFile[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const { isAdmin } = useAuth();
 
   const loadFiles = async () => {
     try {
@@ -36,18 +39,23 @@ export const CSVList = () => {
   });
 
   const handleDelete = async (fileId: number) => {
-    if (!window.confirm('Are you sure you want to delete this file?')) {
+    const confirmed = await confirmToast(
+      'Are you sure you want to delete this file?'
+    );
+
+    if (!confirmed) {
       return;
     }
 
     try {
       await csvApi.delete(fileId);
+      toast.success('File deleted successfully');
       await loadFiles();
       if (selectedFileId === fileId) {
         setSelectedFileId(null);
       }
     } catch (err: any) {
-      alert(err.response?.data?.detail || 'Failed to delete file');
+      toast.error(err.response?.data?.detail || 'Failed to delete file');
     }
   };
 

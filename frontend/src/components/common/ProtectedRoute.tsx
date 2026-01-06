@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
+
 import { useAuth } from '../../context/AuthContext';
 
 interface ProtectedRouteProps {
@@ -7,7 +8,10 @@ interface ProtectedRouteProps {
   requireAdmin?: boolean;
 }
 
-export const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({
+  children,
+  requireAdmin = false,
+}: ProtectedRouteProps) => {
   const { user, isLoading, isAdmin } = useAuth();
 
   if (isLoading) {

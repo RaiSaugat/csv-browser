@@ -17,6 +17,9 @@ export interface CSVContent {
   headers: string[];
   rows: Record<string, any>[];
   total_rows: number;
+  page: number;
+  limit: number;
+  total_pages: number;
 }
 
 export interface LoginCredentials {

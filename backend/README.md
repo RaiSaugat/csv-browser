@@ -59,7 +59,7 @@ The API will be available at:
 ### CSV Management
 
 - `GET /api/v1/csv` - List all CSV files (user/admin)
-- `GET /api/v1/csv/{file_id}` - Get CSV content (user/admin)
+- `GET /api/v1/csv/{file_id}?page=1&limit=20` - Get CSV content with pagination (user/admin)
 - `POST /api/v1/csv/upload` - Upload CSV file (admin only)
 - `DELETE /api/v1/csv/{file_id}` - Delete CSV file (admin only)
 

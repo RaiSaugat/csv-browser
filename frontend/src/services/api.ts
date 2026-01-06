@@ -1,5 +1,13 @@
 import axios from 'axios';
-import type { LoginCredentials, SignupData, AuthResponse, CSVFile, CSVContent, User } from '../types';
+
+import type {
+  LoginCredentials,
+  SignupData,
+  AuthResponse,
+  CSVFile,
+  CSVContent,
+  User,
+} from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -40,7 +48,11 @@ api.interceptors.response.use(
 // Auth endpoints
 export const authApi = {
   signup: async (data: SignupData) => {
-    const response = await api.post<{ message: string; user_id: number; username: string }>('/api/v1/auth/signup', data);
+    const response = await api.post<{
+      message: string;
+      user_id: number;
+      username: string;
+    }>('/api/v1/auth/signup', data);
     return response.data;
   },
 
@@ -49,11 +61,15 @@ export const authApi = {
     formData.append('username', credentials.username);
     formData.append('password', credentials.password);
 
-    const response = await api.post<AuthResponse>('/api/v1/auth/login', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await api.post<AuthResponse>(
+      '/api/v1/auth/login',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
     return response.data;
   },
 };
@@ -65,8 +81,10 @@ export const csvApi = {
     return response.data;
   },
 
-  get: async (fileId: number) => {
-    const response = await api.get<CSVContent>(`/api/v1/csv/${fileId}`);
+  get: async (fileId: number, page: number = 1, limit: number = 20) => {
+    const response = await api.get<CSVContent>(`/api/v1/csv/${fileId}`, {
+      params: { page, limit },
+    });
     return response.data;
   },
 

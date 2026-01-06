@@ -30,10 +30,11 @@ The app will be available at http://localhost:5173
 ## Features
 
 - **Authentication**: Sign up and login with JWT tokens
-- **CSV Management**: View CSV files and their contents
+- **CSV Management**: View CSV files and their contents with pagination (20 items per page)
 - **Real-time Updates**: WebSocket integration for live updates
 - **Admin Panel**: Upload/delete CSV files, manage users
 - **Role-based Access**: Different views for admin and regular users
+- **Toast Notifications**: Modern toast notifications for user feedback using react-hot-toast
 
 ## Project Structure
 
@@ -48,6 +49,7 @@ src/
 ├── context/           # AuthContext for state management
 ├── hooks/             # Custom React hooks
 ├── types/             # TypeScript type definitions
+├── utils/             # Utility functions (toast confirmations)
 └── App.tsx            # Main app component with routing
 ```
 

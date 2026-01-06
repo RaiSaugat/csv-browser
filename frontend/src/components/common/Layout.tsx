@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { useAuth } from '../../context/AuthContext';
 
 interface LayoutProps {
@@ -8,6 +9,7 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const { user, logout, isAdmin } = useAuth();
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -57,9 +59,7 @@ export const Layout = ({ children }: LayoutProps) => {
           </div>
         </div>
       </nav>
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        {children}
-      </main>
+      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">{children}</main>
     </div>
   );
 };
